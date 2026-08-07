@@ -16,7 +16,7 @@ workflows:
           
           xcodebuild -exportArchive \
             -archivePath build/Unity-iPhone.xcarchive \
-            -exportOptionsPlist ExportOptions.plist \
-            -exportPath build/output
+            -exportPath build/output \
+            -exportOptionsPlist <(echo '<dict><key>method</key><string>development</string></dict>')
     artifacts:
       - build/output/*.ipa
