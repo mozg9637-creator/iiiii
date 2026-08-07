@@ -6,6 +6,7 @@ workflows:
       xcode: latest
     scripts:
       - name: Build ipa
+        working_directory: имя_папки_на_github
         script: |
           xcodebuild -project Unity-iPhone.xcodeproj \
             -scheme Unity-iPhone \
@@ -19,4 +20,4 @@ workflows:
             -exportPath build/output \
             -exportOptionsPlist <(echo '<dict><key>method</key><string>development</string></dict>')
     artifacts:
-      - build/output/*.ipa
+      - '**/build/output/*.ipa'
