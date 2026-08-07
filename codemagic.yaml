@@ -1,0 +1,22 @@
+workflows:
+  unity-ios-workflow:
+    name: Unity iOS Build
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+    scripts:
+      - name: Build ipa
+        script: |
+          xcodebuild -project Unity-iPhone.xcodeproj \
+            -scheme Unity-iPhone \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/Unity-iPhone.xcarchive \
+            archive
+          
+          xcodebuild -exportArchive \
+            -archivePath build/Unity-iPhone.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath build/output
+    artifacts:
+      - build/output/*.ipa
