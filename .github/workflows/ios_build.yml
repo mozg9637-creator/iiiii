@@ -1,0 +1,23 @@
+name: Build Xcode Project
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Xcode Project
+        run: |
+          xcodebuild -project Unity-iPhone.xcodeproj \
+                     -scheme Unity-iPhone \
+                     -configuration Release \
+                     -sdk iphoneos \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGNING_ALLOWED=NO \
+                     build
