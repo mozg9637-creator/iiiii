@@ -1,0 +1,27 @@
+name: Build Unity iOS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build iOS Project
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: iOS
+
+      - name: Upload IPAs
+        uses: actions/upload-artifact@v4
+        with:
+          name: PatientPlanner-ipa
+          path: build/iOS
