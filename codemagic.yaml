@@ -5,6 +5,18 @@ workflows:
     environment:
       xcode: latest
     scripts:
+      - name: Create ExportOptions.plist
+        script: |
+          cat << EOF > ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>development</string>
+          </dict>
+          </plist>
+          EOF
       - name: Build ipa
         script: |
           xcodebuild -project Unity-iPhone.xcodeproj \
@@ -20,6 +32,6 @@ workflows:
           xcodebuild -exportArchive \
             -archivePath build/Unity-iPhone.xcarchive \
             -exportPath build/output \
-            -exportOptionsPlist <(echo '<dict><key>method</key><string>development</string></dict>')
+            -exportOptionsPlist ExportOptions.plist
     artifacts:
       - build/output/*.ipa
