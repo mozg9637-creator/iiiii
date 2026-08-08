@@ -1,4 +1,4 @@
-name: Build Unity iOS
+name: Build Xcode Project
 
 on:
   push:
@@ -6,22 +6,18 @@ on:
 
 jobs:
   build:
-    name: Build iOS Project
     runs-on: macos-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Unity
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          targetPlatform: iOS
-
-      - name: Upload IPAs
-        uses: actions/upload-artifact@v4
-        with:
-          name: PatientPlanner-ipa
-          path: build/iOS
+      - name: Build Xcode Project
+        run: |
+          xcodebuild -project Unity-iPhone.xcodeproj \
+                     -scheme Unity-iPhone \
+                     -configuration Release \
+                     -sdk iphoneos \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGNING_ALLOWED=NO \
+                     build
